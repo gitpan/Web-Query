@@ -1,0 +1,30 @@
+---
+abstract: 'Yet another scraping library like jQuery'
+author:
+  - 'Tokuhiro Matsuno <tokuhirom AAJKLFJEF GMAIL COM>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::More: 0.96
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 1.00'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Web-Query
+no_index:
+  directory:
+    - inc
+    - t
+    - xt
+requires:
+  HTML::Selector::XPath: 0.06
+  HTML::TreeBuilder::XPath: 0.12
+  LWP::UserAgent: 5.385
+  parent: 0
+  perl: 5.8.1
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01
