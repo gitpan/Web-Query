@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -77,6 +77,20 @@ sub new_from_element {
 sub end {
     my $self = shift;
     return $self->{before};
+}
+
+sub size {
+    my $self = shift;
+    return scalar(@{$self->{trees}});
+}
+
+sub parent {
+    my $self = shift;
+    my @new;
+    for my $tree (@{$self->{trees}}) {
+        push @new, $tree->getParentNode();
+    }
+    return Web::Query->new_from_element(\@new, $self);
 }
 
 sub find {
@@ -234,6 +248,14 @@ C<< $_ >> is localized by C<< $elem >>.
 =item $q->end()
 
 Back to the before context like jQuery.
+
+=item my $size = $q->size() : Int
+
+Return the number of DOM elements matched by the Web::Query object.
+
+=item my $parent = $q->parent() : Web::Query
+
+Return the parent node from C<< $q >>.
 
 =back
 
