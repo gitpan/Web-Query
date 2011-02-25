@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -258,6 +258,12 @@ Return the number of DOM elements matched by the Web::Query object.
 Return the parent node from C<< $q >>.
 
 =back
+
+=head1 HOW DO I CUSTOMIZE USER AGENT?
+
+You can specify your own instance of L<LWP::UserAgent>.
+
+    $Web::Query::UserAgent = LWP::UserAgent->new( agent => 'Mozilla/5.0' );
 
 =head1 AUTHOR
 
