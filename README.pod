@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -91,6 +91,18 @@ sub parent {
         push @new, $tree->getParentNode();
     }
     return Web::Query->new_from_element(\@new, $self);
+}
+
+sub first {
+    my $self = shift;
+    $self->{trees} = +[$self->{trees}[0]];
+    return $self;
+}
+
+sub last {
+    my $self = shift;
+    $self->{trees} = +[$self->{trees}[-1]];
+    return $self;
 }
 
 sub find {
@@ -256,6 +268,14 @@ Return the number of DOM elements matched by the Web::Query object.
 =item my $parent = $q->parent() : Web::Query
 
 Return the parent node from C<< $q >>.
+
+=item my $first = $q->first()
+
+Return the first matching element.
+
+=item my $last = $q->last()
+
+Return the last matching element.
 
 =back
 
