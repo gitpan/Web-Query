@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -54,6 +54,7 @@ sub new_from_url {
 sub new_from_file {
     my ($class, $fname) = @_;
     my $tree = HTML::TreeBuilder::XPath->new_from_file($fname);
+    $tree->ignore_unknown(0);
     my $self = $class->new_from_element([$tree->elementify]);
     $self->{need_delete}++;
     return $self;
@@ -62,6 +63,7 @@ sub new_from_file {
 sub new_from_html {
     my ($class, $html) = @_;
     my $tree = HTML::TreeBuilder::XPath->new();
+    $tree->ignore_unknown(0);
     $tree->parse_content($html);
     my $self = $class->new_from_element([$tree->elementify]);
     $self->{need_delete}++;
@@ -287,7 +289,7 @@ You can specify your own instance of L<LWP::UserAgent>.
 
 =head1 AUTHOR
 
-Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF GMAIL COME<gt>
+Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF@ GMAIL COME<gt>
 
 =head1 SEE ALSO
 
