@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -97,14 +97,12 @@ sub parent {
 
 sub first {
     my $self = shift;
-    $self->{trees} = +[$self->{trees}[0] || ()];
-    return $self;
+    return Web::Query->new_from_element([$self->{trees}[0] || ()], $self);
 }
 
 sub last {
     my $self = shift;
-    $self->{trees} = +[$self->{trees}[-1] || ()];
-    return $self;
+    return Web::Query->new_from_element([$self->{trees}[-1] || ()], $self);
 }
 
 sub find {
@@ -311,9 +309,13 @@ Return the parent node from C<< $q >>.
 
 Return the first matching element.
 
+This method constructs a new Web::Query object from the first matching element.
+
 =item my $last = $q->last()
 
 Return the last matching element.
+
+This method constructs a new Web::Query object from the last matching element.
 
 =back
 

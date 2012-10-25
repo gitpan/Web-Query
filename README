@@ -1,23 +1,117 @@
-This is Perl module Web::Query.
+NAME
+    Web::Query - Yet another scraping library like jQuery
 
-INSTALLATION
+SYNOPSIS
+        use Web::Query;
 
-Web::Query installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+        wq('http://google.com/search?q=foobar')
+              ->find('h2')
+              ->each(sub {
+                    my $i = shift;
+                    printf("%d) %s\n", $i+1, $_->text
+              });
 
-% cpan Web::Query
+DESCRIPTION
+    Web::Query is a yet another scraping framework, have a jQuery like
+    interaface.
 
-Download it, unpack it, then build it as per the usual:
+    Yes, I know ingy's pQuery. But it's just a alpha quality. It doesn't
+    works. Web::Query built at top of the CPAN modules,
+    HTML::TreeBuilder::XPath, LWP::UserAgent, and HTML::Selector::XPath.
 
-% perl Makefile.PL
-% make && make test
+    So, this module uses HTML::Selector::XPath, then this module only
+    supports CSS3 selector supported by HTML::Selector::XPath. Web::Query
+    doesn't support jQuery's extended quries(yet?).
 
-Then install it:
+    THIS LIBRARY IS UNDER DEVELOPMENT. ANY API MAY CHANGE WITHOUT NOTICE.
 
-% make install
+FUNCTIONS
+    wq($stuff)
+        This is a shortcut for "Web::Query->new($stuff)". This function is
+        exported by default.
 
-DOCUMENTATION
+METHODS
+    my $q = Web::Query->new($stuff)
+        Create new instance of Web::Query. You can make the instance from
+        URL(http, https, file scheme), HTML in string, URL in string, URI
+        object, and instance of HTML::Element.
 
-Web::Query documentation is available as in POD. So you can do:
+    my $q = Web::Query->new_from_element($element: HTML::Element)
+        Create new instance of Web::Query from instance of HTML::Element.
 
-% perldoc Web::Query
+    my $q = Web::Query->new_from_html($html: Str)
+        Create new instance of Web::Query from html.
+
+    my $q = Web::Query->new_from_url($url: Str)
+        Create new instance of Web::Query from url.
+
+    my $q = Web::Query->new_from_file($file_name: Str)
+        Create new instance of Web::Query from file name.
+
+    my @html = $q->html();
+    my $html = $q->html();
+    $q->html('<p>foo</p>');
+        Get/set the innerHTML.
+
+    my @text = $q->text();
+    my $text = $q->text();
+    $q->text('text');
+        Get/Set the inner text.
+
+    my $attr = $q->attr($name);
+    $q->attr($name, $val);
+        Get/Set the attribute value in element.
+
+    $q = $q->find($selector)
+        This method find nodes by $selector from $q. $selector is a CSS3
+        selector.
+
+    $q->each(sub { my ($i, $elem) = @_; ... })
+        Visit each nodes. $i is a counter value, 0 origin. $elem is
+        iteration item. $_ is localized by $elem.
+
+    $q->map(sub { my ($i, $elem) = @_; ... })
+        Creates a new array with the results of calling a provided function
+        on every element.
+
+    $q->filter(sub { my ($i, $elem) = @_; ... })
+        Reduce the elements to those that pass the function's test.
+
+    $q->end()
+        Back to the before context like jQuery.
+
+    my $size = $q->size() : Int
+        Return the number of DOM elements matched by the Web::Query object.
+
+    my $parent = $q->parent() : Web::Query
+        Return the parent node from $q.
+
+    my $first = $q->first()
+        Return the first matching element.
+
+        This method constructs a new Web::Query object from the first
+        matching element.
+
+    my $last = $q->last()
+        Return the last matching element.
+
+        This method constructs a new Web::Query object from the last
+        matching element.
+
+HOW DO I CUSTOMIZE USER AGENT?
+    You can specify your own instance of LWP::UserAgent.
+
+        $Web::Query::UserAgent = LWP::UserAgent->new( agent => 'Mozilla/5.0' );
+
+AUTHOR
+    Tokuhiro Matsuno <tokuhirom AAJKLFJEF@ GMAIL COM>
+
+SEE ALSO
+    pQuery
+
+LICENSE
+    Copyright (C) Tokuhiro Matsuno
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
