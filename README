@@ -36,6 +36,11 @@ METHODS
         URL(http, https, file scheme), HTML in string, URL in string, URI
         object, and instance of HTML::Element.
 
+        This method throw the exception on unknown $stuff.
+
+        This method returns undefined value on non successful response with
+        URL.
+
     my $q = Web::Query->new_from_element($element: HTML::Element)
         Create new instance of Web::Query from instance of HTML::Element.
 
@@ -44,6 +49,18 @@ METHODS
 
     my $q = Web::Query->new_from_url($url: Str)
         Create new instance of Web::Query from url.
+
+        If the response is not success(It means /^20[0-9]$/), this method
+        returns undefined value.
+
+        You can get a last result of response, use the
+        $Web::Query::RESPONSE.
+
+        Here is a best practical code:
+
+            my $url = 'http://example.com/';
+            my $q = Web::Query->new_from_url($url)
+                or die "Cannot get a resource from $url: " . Web::Query->last_response()->status_line;
 
     my $q = Web::Query->new_from_file($file_name: Str)
         Create new instance of Web::Query from file name.
@@ -102,6 +119,11 @@ HOW DO I CUSTOMIZE USER AGENT?
     You can specify your own instance of LWP::UserAgent.
 
         $Web::Query::UserAgent = LWP::UserAgent->new( agent => 'Mozilla/5.0' );
+
+INCOMPATIBLE CHANGES
+    0.10
+        new_from_url() is no longer throws exception on bad response from
+        HTTP server.
 
 AUTHOR
     Tokuhiro Matsuno <tokuhirom AAJKLFJEF@ GMAIL COM>
