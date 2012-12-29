@@ -21,7 +21,7 @@ no_index:
 provides:
   Web::Query:
     file: lib/Web/Query.pm
-    version: 0.10
+    version: 0.11
 requires:
   HTML::Selector::XPath: 0.06
   HTML::TreeBuilder::XPath: 0.12
@@ -31,4 +31,4 @@ requires:
   perl: 5.008001
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.10
+version: 0.11

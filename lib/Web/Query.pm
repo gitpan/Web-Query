@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -185,6 +185,11 @@ sub filter {
     } else {
         return $self->find($_[0])
     }
+}
+
+sub remove {
+    $_->delete for @{$_[0]->{trees}};
+    return $_[0]
 }
 
 sub DESTROY {
