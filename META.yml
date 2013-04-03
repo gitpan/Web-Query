@@ -1,13 +1,15 @@
 ---
 abstract: 'Yet another scraping library like jQuery'
 author:
-  - 'Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF@ GMAIL COME<gt>'
+  - 'Tokuhiro Matsuno <tokuhirom AAJKLFJEF@ GMAIL COM>'
 build_requires:
   Test::More: 0.98
 configure_requires:
+  CPAN::Meta: 0
+  CPAN::Meta::Prereqs: 0
   Module::Build: 0.38
 dynamic_config: 0
-generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Minilla/v0.0.49, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -15,14 +17,18 @@ meta-spec:
 name: Web-Query
 no_index:
   directory:
-    - inc
     - t
     - xt
+    - inc
+    - share
+    - eg
+    - examples
 provides:
   Web::Query:
     file: lib/Web/Query.pm
-    version: 0.11
+    version: 0.12
 requires:
+  HTML::Entities: 0
   HTML::Selector::XPath: 0.06
   HTML::TreeBuilder::XPath: 0.12
   LWP::UserAgent: 6
@@ -30,5 +36,14 @@ requires:
   parent: 0
   perl: 5.008001
 resources:
-  license: http://dev.perl.org/licenses/
-version: 0.11
+  bugtracker: https://github.com/tokuhirom/Web-Query/issues
+  homepage: https://github.com/tokuhirom/Web-Query
+  repository: git://github.com/tokuhirom/Web-Query.git
+version: 0.12
+x_contributors:
+  - 'Hiroki Honda <cside.story@gmail.com>'
+  - 'Oleg <verdrehung@gmail.com>'
+  - 'Kang-min Liu <gugod@gugod.org>'
+  - 'Yanick Champoux <yanick@babyl.dyndns.org>'
+  - 'Carlos Fernando Avila Gratz <cafe@q1software.com>'
+  - 'tokuhirom <tokuhirom@gmail.com>'
