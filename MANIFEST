@@ -19,6 +19,7 @@ t/08_indent.t
 t/09_as_html.t
 t/10_subclass.t
 t/data/foo.html
+t/find.t
 t/lib/My/Web/Query.pm
 t/replace_with.t
 xt/02_perlcritic.t

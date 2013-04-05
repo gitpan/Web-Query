@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -75,6 +75,7 @@ sub new_from_file {
     $tree->ignore_unknown(0);
     my $self = $class->new_from_element([$tree->elementify]);
     $self->{need_delete}++;
+    $self->{root} = '/';
     return $self;
 }
 
@@ -85,6 +86,7 @@ sub new_from_html {
     $tree->parse_content($html);
     my $self = $class->new_from_element([$tree->guts]);
     $self->{need_delete}++;
+    $self->{root} = '/';
     return $self;
 }
 
@@ -125,9 +127,10 @@ sub last {
 
 sub find {
     my ($self, $selector) = @_;
+    my $root = exists $self->{root} ? $self->{root} : './';
+    $selector = selector_to_xpath($selector, root => $root);
     my @new;
-    for my $tree (@{$self->{trees}}) {
-        $selector = selector_to_xpath($selector, root => './');
+    for my $tree (@{$self->{trees}}) {        
         push @new, $tree->findnodes($selector);
     }
     return (ref $self || $self)->new_from_element(\@new, $self);
