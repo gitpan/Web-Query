@@ -22,6 +22,7 @@ t/add_class.t
 t/after.t
 t/append.t
 t/before.t
+t/clone.t
 t/data/foo.html
 t/detach.t
 t/find.t
@@ -32,6 +33,7 @@ t/lib/My/Web/Query.pm
 t/prepend.t
 t/remove_class.t
 t/replace_with.t
+t/store_comments.t
 xt/02_perlcritic.t
 xt/live/01_simple.t
 Build.PL
