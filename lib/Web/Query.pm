@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -21,6 +21,14 @@ our $UserAgent = LWP::UserAgent->new();
 sub __ua {
     $UserAgent ||= LWP::UserAgent->new( agent => __PACKAGE__ . "/" . $VERSION );
     $UserAgent;
+}
+
+sub _build_tree {
+    my ($self, $content) = @_;    
+    my $tree = HTML::TreeBuilder::XPath->new();
+    $tree->ignore_unknown(0);
+    $tree->store_comments(1);
+    $tree;    
 }
 
 sub new {
@@ -71,9 +79,8 @@ sub new_from_url {
 
 sub new_from_file {
     my ($class, $fname) = @_;
-    my $tree = HTML::TreeBuilder::XPath->new_from_file($fname);
-    $tree->ignore_unknown(0);
-    $tree->store_comments(1);
+    my $tree = $class->_build_tree;
+    $tree->parse_file($fname);
     my $self = $class->new_from_element([$tree->elementify]);
     $self->{need_delete}++;
     return $self;
@@ -81,9 +88,7 @@ sub new_from_file {
 
 sub new_from_html {
     my ($class, $html) = @_;
-    my $tree = HTML::TreeBuilder::XPath->new();
-    $tree->ignore_unknown(0);
-    $tree->store_comments(1);
+    my $tree = $class->_build_tree;
     $tree->parse_content($html);
     my $self = $class->new_from_element([$tree->guts]);
     $self->{need_delete}++;
@@ -93,7 +98,7 @@ sub new_from_html {
 sub new_from_element {
     my $class = shift;
     my $trees = ref $_[0] eq 'ARRAY' ? $_[0] : +[$_[0]];
-    return bless { trees => $trees, before => $_[1] }, $class;
+    return bless { trees => +[ grep { blessed $_ } @$trees ], before => $_[1] }, $class;
 }
 
 sub end {
@@ -441,7 +446,7 @@ Web::Query - Yet another scraping library like jQuery
 
 Web::Query is a yet another scraping framework, have a jQuery like interface.
 
-Yes, I know ingy's L<pQuery>. But it's just a alpha quality. It doesn't works.
+Yes, I know Ingy's L<pQuery>. But it's just a alpha quality. It doesn't works.
 Web::Query built at top of the CPAN modules, L<HTML::TreeBuilder::XPath>, L<LWP::UserAgent>, and L<HTML::Selector::XPath>.
 
 So, this module uses L<HTML::Selector::XPath> and only supports the CSS 3
@@ -454,7 +459,7 @@ B<THIS LIBRARY IS UNDER DEVELOPMENT. ANY API MAY CHANGE WITHOUT NOTICE>.
 
 =over 4
 
-=item wq($stuff)
+=item C<< wq($stuff) >>
 
 This is a shortcut for C<< Web::Query->new($stuff) >>. This function is exported by default.
 

@@ -1,5 +1,3 @@
-.gitignore
-.travis.yml
 Build.PL
 Changes
 LICENSE
@@ -24,11 +22,13 @@ t/append.t
 t/before.t
 t/clone.t
 t/data/foo.html
+t/data/html5_snippet.html
 t/detach.t
 t/find.t
 t/has_class.t
 t/insert_after.t
 t/insert_before.t
+t/lib/My/TreeBuilder.pm
 t/lib/My/Web/Query.pm
 t/prepend.t
 t/remove_class.t
@@ -36,8 +36,5 @@ t/replace_with.t
 t/store_comments.t
 xt/02_perlcritic.t
 xt/live/01_simple.t
-Build.PL
-LICENSE
-META.json
 META.yml
 MANIFEST
