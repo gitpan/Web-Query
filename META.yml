@@ -9,7 +9,7 @@ configure_requires:
   CPAN::Meta::Prereqs: 0
   Module::Build: 0.38
 dynamic_config: 0
-generated_by: 'Minilla/v0.0.53, CPAN::Meta::Converter version 2.130880'
+generated_by: 'Minilla/v0.4.2, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -27,7 +27,7 @@ no_index:
 provides:
   Web::Query:
     file: lib/Web/Query.pm
-    version: 0.16
+    version: 0.17
 requires:
   HTML::Entities: 0
   HTML::Selector::XPath: 0.06
@@ -40,7 +40,7 @@ resources:
   bugtracker: https://github.com/tokuhirom/Web-Query/issues
   homepage: https://github.com/tokuhirom/Web-Query
   repository: git://github.com/tokuhirom/Web-Query.git
-version: 0.16
+version: 0.17
 x_contributors:
   - 'Hiroki Honda <cside.story@gmail.com>'
   - 'Oleg <verdrehung@gmail.com>'

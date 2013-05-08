@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -81,7 +81,7 @@ sub new_from_file {
     my ($class, $fname) = @_;
     my $tree = $class->_build_tree;
     $tree->parse_file($fname);
-    my $self = $class->new_from_element([$tree->elementify]);
+    my $self = $class->new_from_element([$tree->guts]);
     $self->{need_delete}++;
     return $self;
 }
@@ -484,7 +484,7 @@ the indentation string if the object is printed.
 
 Create new instance of Web::Query from instance of L<HTML::Element>.
 
-=item my $q = Web::Query->new_from_html($html: Str)
+=item C<< my $q = Web::Query->new_from_html($html: Str) >>
 
 Create new instance of Web::Query from HTML.
 
@@ -530,7 +530,7 @@ Get/Set the inner text.
 
 =item my $attr = $q->attr($name);
 
-=item $q->attr($name, $val);
+=item C<< $q->attr($name, $val); >>
 
 Get/Set the attribute value in element.
 
