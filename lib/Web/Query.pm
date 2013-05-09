@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -81,7 +81,7 @@ sub new_from_file {
     my ($class, $fname) = @_;
     my $tree = $class->_build_tree;
     $tree->parse_file($fname);
-    my $self = $class->new_from_element([$tree->guts]);
+    my $self = $class->new_from_element([$tree->disembowel]);
     $self->{need_delete}++;
     return $self;
 }
@@ -90,7 +90,7 @@ sub new_from_html {
     my ($class, $html) = @_;
     my $tree = $class->_build_tree;
     $tree->parse_content($html);
-    my $self = $class->new_from_element([$tree->guts]);
+    my $self = $class->new_from_element([$tree->disembowel]);
     $self->{need_delete}++;
     return $self;
 }
@@ -115,7 +115,7 @@ sub parent {
     my $self = shift;
     my @new;
     for my $tree (@{$self->{trees}}) {
-        push @new, $tree->getParentNode();
+        push @new, $tree->parent();
     }
     return (ref $self || $self)->new_from_element(\@new, $self);
 }
@@ -154,17 +154,13 @@ sub as_html {
 
 sub html {
     my $self = shift;
-    my $builder = HTML::TreeBuilder->new;
-    $builder->store_comments(1);
     
     if (@_) {
         map { 
             $_->delete_content; 
-            my $tree = HTML::TreeBuilder->new;
-            $tree->ignore_unknown(0);
-            $tree->store_comments(1);
+            my $tree = $self->_build_tree;
             $tree->parse_content($_[0]);
-            $_->push_content($tree->guts);
+            $_->push_content($tree->disembowel);
         } @{$self->{trees}};
         return $self;
     } 
