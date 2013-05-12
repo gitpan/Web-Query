@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -51,6 +51,10 @@ sub _resolve_new {
         
         if ($stuff->isa('URI')) {
             return $class->new_from_url($stuff->as_string);
+        } 
+        
+        if ($stuff->isa($class)) {
+            return $class->new_from_element($stuff->{trees});
         } 
 
         die "Unknown source type: $stuff";
@@ -141,6 +145,19 @@ sub find {
     }
     
     return (ref $self || $self)->new_from_element(\@new, $self);
+}
+
+sub contents {
+    my ($self, $selector) = @_;
+    
+    my @new = map { $_->content_list } @{$self->{trees}};
+    
+    if ($selector) {
+        my $xpath = selector_to_xpath($selector);
+        @new = grep { $_->matches($xpath) } @new;        
+    }
+    
+    return (ref $self || $self)->new_from_element(\@new, $self);    
 }
 
 sub as_html {

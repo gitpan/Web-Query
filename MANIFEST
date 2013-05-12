@@ -21,6 +21,7 @@ t/after.t
 t/append.t
 t/before.t
 t/clone.t
+t/contents.t
 t/data/foo.html
 t/data/html5_snippet.html
 t/detach.t
