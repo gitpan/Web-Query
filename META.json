@@ -58,7 +58,7 @@
    "provides" : {
       "Web::Query" : {
          "file" : "lib/Web/Query.pm",
-         "version" : "0.19"
+         "version" : "0.20"
       }
    },
    "release_status" : "stable",
@@ -72,7 +72,7 @@
          "web" : "https://github.com/tokuhirom/Web-Query"
       }
    },
-   "version" : "0.19",
+   "version" : "0.20",
    "x_contributors" : [
       "Hiroki Honda <cside.story@gmail.com>",
       "Oleg <verdrehung@gmail.com>",
