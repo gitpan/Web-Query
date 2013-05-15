@@ -16,6 +16,7 @@ t/07_remove.t
 t/08_indent.t
 t/09_as_html.t
 t/10_subclass.t
+t/add.t
 t/add_class.t
 t/after.t
 t/append.t
@@ -25,6 +26,7 @@ t/contents.t
 t/data/foo.html
 t/data/html5_snippet.html
 t/detach.t
+t/filter.t
 t/find.t
 t/has_class.t
 t/insert_after.t
