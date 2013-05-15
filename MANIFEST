@@ -5,6 +5,7 @@ META.json
 README.md
 cpanfile
 lib/Web/Query.pm
+lib/Web/Query/LibXML.pm
 t/00_compile.t
 t/01_src.t
 t/02_op.t
