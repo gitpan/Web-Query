@@ -6,14 +6,14 @@ use parent qw/Web::Query Exporter/;
 use HTML::TreeBuilder::LibXML;
 
 
-our $VERSION = "0.23";
+our $VERSION = "0.24";
 
 our @EXPORT = qw/wq/;
 
 sub wq { Web::Query::LibXML->new(@_) }
 
 sub _build_tree {
-    my ($self, $content) = @_;    
+    my $class = shift;
     my $tree = HTML::TreeBuilder::LibXML->new();
     $tree->ignore_unknown(0);
     $tree->store_comments(1);

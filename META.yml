@@ -9,7 +9,7 @@ configure_requires:
   CPAN::Meta::Prereqs: 0
   Module::Build: 0.38
 dynamic_config: 0
-generated_by: 'Minilla/v0.4.4, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Minilla/v0.9.1, CPAN::Meta::Converter version 2.131560'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -24,13 +24,14 @@ no_index:
     - eg
     - examples
     - author
+    - builder
 provides:
   Web::Query:
     file: lib/Web/Query.pm
-    version: 0.23
+    version: 0.24
   Web::Query::LibXML:
     file: lib/Web/Query/LibXML.pm
-    version: 0.23
+    version: 0.24
 requires:
   HTML::Entities: 0
   HTML::Selector::XPath: 0.06
@@ -43,7 +44,7 @@ resources:
   bugtracker: https://github.com/tokuhirom/Web-Query/issues
   homepage: https://github.com/tokuhirom/Web-Query
   repository: git://github.com/tokuhirom/Web-Query.git
-version: 0.23
+version: 0.24
 x_contributors:
   - 'Hiroki Honda <cside.story@gmail.com>'
   - 'Oleg <verdrehung@gmail.com>'
@@ -51,4 +52,5 @@ x_contributors:
   - 'Yanick Champoux <yanick@babyl.dyndns.org>'
   - 'Tokuhiro Matsuno <tokuhirom@gmail.com>'
   - 'Carlos Fernando Avila Gratz <cafe01@gmail.com>'
+  - 'DQNEO <dqneoo@gmail.com>'
   - 'Carlos Fernando Avila Gratz <cafe@q1software.com>'

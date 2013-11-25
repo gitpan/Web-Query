@@ -4,8 +4,10 @@
       "Tokuhiro Matsuno <tokuhirom AAJKLFJEF@ GMAIL COM>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.4.4",
-   "license" : "perl_5",
+   "generated_by" : "Minilla/v0.9.1",
+   "license" : [
+      "perl_5"
+   ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
@@ -19,7 +21,8 @@
          "share",
          "eg",
          "examples",
-         "author"
+         "author",
+         "builder"
       ]
    },
    "prereqs" : {
@@ -58,11 +61,11 @@
    "provides" : {
       "Web::Query" : {
          "file" : "lib/Web/Query.pm",
-         "version" : "0.23"
+         "version" : "0.24"
       },
       "Web::Query::LibXML" : {
          "file" : "lib/Web/Query/LibXML.pm",
-         "version" : "0.23"
+         "version" : "0.24"
       }
    },
    "release_status" : "stable",
@@ -76,7 +79,7 @@
          "web" : "https://github.com/tokuhirom/Web-Query"
       }
    },
-   "version" : "0.23",
+   "version" : "0.24",
    "x_contributors" : [
       "Hiroki Honda <cside.story@gmail.com>",
       "Oleg <verdrehung@gmail.com>",
@@ -84,6 +87,7 @@
       "Yanick Champoux <yanick@babyl.dyndns.org>",
       "Tokuhiro Matsuno <tokuhirom@gmail.com>",
       "Carlos Fernando Avila Gratz <cafe01@gmail.com>",
+      "DQNEO <dqneoo@gmail.com>",
       "Carlos Fernando Avila Gratz <cafe@q1software.com>"
    ]
 }

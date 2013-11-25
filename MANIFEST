@@ -17,6 +17,7 @@ t/07_remove.t
 t/08_indent.t
 t/09_as_html.t
 t/10_subclass.t
+t/11_get_eq.t
 t/add.t
 t/add_class.t
 t/after.t

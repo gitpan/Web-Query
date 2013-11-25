@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.23';
+our $VERSION = '0.24';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -24,7 +24,7 @@ sub __ua {
 }
 
 sub _build_tree {
-    my ($self, $content) = @_;    
+    my $class = shift;
     my $tree = HTML::TreeBuilder::XPath->new();
     $tree->ignore_unknown(0);
     $tree->store_comments(1);
@@ -126,12 +126,22 @@ sub parent {
 
 sub first {
     my $self = shift;
-    return (ref $self || $self)->new_from_element([$self->{trees}[0] || ()], $self);
+    return $self->eq(0);
 }
 
 sub last {
     my $self = shift;
-    return (ref $self || $self)->new_from_element([$self->{trees}[-1] || ()], $self);
+    return $self->eq(-1);
+}
+
+sub get {
+    my ($self, $index) = @_;
+    return $self->{trees}[$index];
+}
+
+sub eq {
+    my ($self, $index) = @_;
+    return (ref $self || $self)->new_from_element([$self->{trees}[$index] || ()], $self);
 }
 
 sub find {
@@ -467,12 +477,12 @@ Web::Query - Yet another scraping library like jQuery
 
     use Web::Query;
 
-    wq('http://google.com/search?q=foobar')
-          ->find('h2')
-          ->each(sub {
-                my $i = shift;
-                printf("%d) %s\n", $i+1, $_->text
-          });
+    wq('http://www.w3.org/TR/html401/')
+        ->find('div.head dt')
+        ->each(sub {
+            my $i = shift;
+            printf("%d %s\n", $i+1, $_->text);
+        });
 
 =head1 DESCRIPTION
 

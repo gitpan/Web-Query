@@ -1,5 +1,16 @@
 Revision history for Perl extension Web::Query
 
+0.24 2013-11-25T13:16:00Z
+
+    - implement get() and eq() as in jQuery
+      (DQNEO)
+    - modify sample codes in SYNPOSIS to work more stably
+      (DQNEO)
+    - _build_tree is not an instance method but a class method
+      (DQNEO)
+    - remove $content that is not used
+      (DQNEO)
+
 0.23 2013-05-30T16:09:03Z
 
     - improved find() documentation
