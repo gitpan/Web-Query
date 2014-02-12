@@ -4,7 +4,7 @@
       "Tokuhiro Matsuno <tokuhirom AAJKLFJEF@ GMAIL COM>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.9.1",
+   "generated_by" : "Minilla/v0.11.0",
    "license" : [
       "perl_5"
    ],
@@ -84,10 +84,10 @@
       "Hiroki Honda <cside.story@gmail.com>",
       "Oleg <verdrehung@gmail.com>",
       "Kang-min Liu <gugod@gugod.org>",
-      "Yanick Champoux <yanick@babyl.dyndns.org>",
-      "Tokuhiro Matsuno <tokuhirom@gmail.com>",
       "Carlos Fernando Avila Gratz <cafe01@gmail.com>",
       "DQNEO <dqneoo@gmail.com>",
-      "Carlos Fernando Avila Gratz <cafe@q1software.com>"
+      "Carlos Fernando Avila Gratz <cafe@q1software.com>",
+      "Yanick Champoux <yanick@babyl.dyndns.org>",
+      "Tokuhiro Matsuno <tokuhirom@gmail.com>"
    ]
 }
