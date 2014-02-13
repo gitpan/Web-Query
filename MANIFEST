@@ -6,6 +6,7 @@ README.md
 cpanfile
 lib/Web/Query.pm
 lib/Web/Query/LibXML.pm
+minil.toml
 t/00_compile.t
 t/01_src.t
 t/02_op.t

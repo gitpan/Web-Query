@@ -61,11 +61,11 @@
    "provides" : {
       "Web::Query" : {
          "file" : "lib/Web/Query.pm",
-         "version" : "0.24"
+         "version" : "0.25"
       },
       "Web::Query::LibXML" : {
          "file" : "lib/Web/Query/LibXML.pm",
-         "version" : "0.24"
+         "version" : "0.25"
       }
    },
    "release_status" : "stable",
@@ -79,7 +79,8 @@
          "web" : "https://github.com/tokuhirom/Web-Query"
       }
    },
-   "version" : "0.24",
+   "version" : "0.25",
+   "x_authority" : "cpan:TOKUHIROM",
    "x_contributors" : [
       "Hiroki Honda <cside.story@gmail.com>",
       "Oleg <verdrehung@gmail.com>",
