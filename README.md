@@ -51,7 +51,7 @@ __THIS LIBRARY IS UNDER DEVELOPMENT. ANY API MAY CHANGE WITHOUT NOTICE__.
 
     Create new instance of Web::Query from instance of [HTML::Element](https://metacpan.org/pod/HTML::Element).
 
-- my $q = Web::Query->new\_from\_html($html: Str)
+- `my $q = Web::Query->new_from_html($html: Str)`
 
     Create new instance of Web::Query from HTML.
 
@@ -156,6 +156,18 @@ Creates a new array with the results of calling a provided function on every ele
 
 Get the parent of each element in the current set of matched elements.
 
+### prev
+
+Get the previous node of each element in the current set of matched elements.
+
+    my $prev = $q->prev;
+
+### next
+
+Get the next node of each element in the current set of matched elements.
+
+    my $next = $q->next;
+
 ## MANIPULATION
 
 ### add\_class
@@ -192,7 +204,7 @@ Return the elements associated with the object as strings.
 If called in a scalar context, only return the string representation
 of the first element.
 
-### attr
+### ` attr `
 
 Get/Set the attribute value in element.
 
@@ -224,7 +236,7 @@ Remove the set of matched elements from the DOM.
 
 Determine whether any of the matched elements are assigned the given class.
 
-### html
+### ` html `
 
 Get/Set the innerHTML.
 
@@ -242,7 +254,7 @@ Insert every element in the set of matched elements before the target.
 
 Insert every element in the set of matched elements after the target.
 
-### prepend
+### ` prepend `
 
 Insert content, specified by the parameter, to the beginning of each element in the set of matched elements. 
 
@@ -306,7 +318,7 @@ You can specify your own instance of [LWP::UserAgent](https://metacpan.org/pod/L
 
 # INCOMPATIBLE CHANGES
 
-0. 10
+- 0.10
 
     new\_from\_url() is no longer throws exception on bad response from HTTP server.
 

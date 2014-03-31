@@ -36,7 +36,9 @@ t/insert_after.t
 t/insert_before.t
 t/lib/My/TreeBuilder.pm
 t/lib/My/Web/Query.pm
+t/next.t
 t/prepend.t
+t/prev.t
 t/remove_class.t
 t/replace_with.t
 t/store_comments.t
