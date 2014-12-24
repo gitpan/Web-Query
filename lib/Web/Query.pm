@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.008001;
 use parent qw/Exporter/;
-our $VERSION = '0.26';
+our $VERSION = '0.27';
 use HTML::TreeBuilder::XPath;
 use LWP::UserAgent;
 use HTML::Selector::XPath 0.06 qw/selector_to_xpath/;
@@ -24,77 +24,86 @@ sub __ua {
 }
 
 sub _build_tree {
-    my $class = shift;
-    my $tree = HTML::TreeBuilder::XPath->new();
+    my( $self, $options ) = @_;
+
+    my $no_space_compacting = ref $self ? $self->{no_space_compacting} 
+    : ref $options eq 'HASH' ? $options->{no_space_compacting} : 0;
+
+    my $tree = HTML::TreeBuilder::XPath->new( 
+        no_space_compacting => $no_space_compacting
+    );
     $tree->ignore_unknown(0);
     $tree->store_comments(1);
-    $tree;    
+    $tree;
 }
 
 sub new {
     my ($class, $stuff, $options) = @_;
 
-    my $self = $class->_resolve_new($stuff);
+    my $self = $class->_resolve_new($stuff,$options)
+        or return undef;
 
     $self->{indent} = $options->{indent} if $options->{indent};
+
+    $self->{no_space_compacting} = $options->{no_space_compacting};
 
     return $self;
 }
 
 sub _resolve_new {
-    my( $class, $stuff ) = @_;
+    my( $class, $stuff, $options) = @_;
 
     if (blessed $stuff) {
         if ($stuff->isa('HTML::Element')) {
-            return $class->new_from_element([$stuff]);
+            return $class->new_from_element([$stuff],$options);
         } 
         
         if ($stuff->isa('URI')) {
-            return $class->new_from_url($stuff->as_string);
+            return $class->new_from_url($stuff->as_string,$options);
         } 
         
         if ($stuff->isa($class)) {
-            return $class->new_from_element($stuff->{trees});
+            return $class->new_from_element($stuff->{trees}, $options);
         } 
 
         die "Unknown source type: $stuff";
     }
 
-    return $class->new_from_element($stuff) if ref $stuff eq 'ARRAY';
+    return $class->new_from_element($stuff,$options) if ref $stuff eq 'ARRAY';
 
-    return $class->new_from_url($stuff) if $stuff =~ m{^(?:https?|file)://};
+    return $class->new_from_url($stuff,$options) if $stuff =~ m{^(?:https?|file)://};
 
-    return $class->new_from_html($stuff) if $stuff =~ /<.*?>/;
+    return $class->new_from_html($stuff,$options) if $stuff =~ /<.*?>/;
 
-    return $class->new_from_file($stuff) if $stuff !~ /\n/ && -f $stuff;
+    return $class->new_from_file($stuff,$options) if $stuff !~ /\n/ && -f $stuff;
 
     die "Unknown source type: $stuff";
 }
 
 sub new_from_url {
-    my ($class, $url) = @_;
+    my ($class, $url,$options) = @_;
     $RESPONSE = __ua()->get($url);
     if ($RESPONSE->is_success) {
-        return $class->new_from_html($RESPONSE->decoded_content);
+        return $class->new_from_html($RESPONSE->decoded_content,$options);
     } else {
         return undef;
     }
 }
 
 sub new_from_file {
-    my ($class, $fname) = @_;
-    my $tree = $class->_build_tree;
+    my ($class, $fname, $options) = @_;
+    my $tree = $class->_build_tree($options);
     $tree->parse_file($fname);
-    my $self = $class->new_from_element([$tree->disembowel]);
+    my $self = $class->new_from_element([$tree->disembowel],$options);
     $self->{need_delete}++;
     return $self;
 }
 
 sub new_from_html {
-    my ($class, $html) = @_;
-    my $tree = $class->_build_tree;
+    my ($class, $html,$options) = @_;
+    my $tree = $class->_build_tree($options);
     $tree->parse_content($html);
-    my $self = $class->new_from_element([$tree->disembowel]);
+    my $self = $class->new_from_element([$tree->disembowel],$options);
     $self->{need_delete}++;
     return $self;
 }
@@ -147,7 +156,7 @@ sub eq {
 sub find {
     my ($self, $selector) = @_;
     
-    my $xpath = selector_to_xpath($selector, root => './');    
+    my $xpath = ref $selector ? $$selector : selector_to_xpath($selector, root => './');
     my @new = map { $_->findnodes($xpath) } @{$self->{trees}};
     
     return (ref $self || $self)->new_from_element(\@new, $self);
@@ -159,7 +168,7 @@ sub contents {
     my @new = map { $_->content_list } @{$self->{trees}};
     
     if ($selector) {
-        my $xpath = selector_to_xpath($selector);
+        my $xpath = ref $selector ? $$selector : selector_to_xpath($selector);
         @new = grep { $_->matches($xpath) } @new;        
     }
     
@@ -218,6 +227,12 @@ sub attr {
     return wantarray ? @retval : $retval[0];
 }
 
+sub tagname {
+    my $self = shift;
+    my @retval = map { $_->tag(@_) } @{$self->{trees}};
+    return wantarray ? @retval : $retval[0];
+}
+
 sub each {
     my ($self, $code) = @_;
     my $i = 0;
@@ -252,7 +267,7 @@ sub filter {
         return $self;
 
     } else {
-        my $xpath = selector_to_xpath($_[0]);
+        my $xpath = ref $_[0] ? ${$_[0]} : selector_to_xpath($_[0]);
         my @new = grep { $_->matches($xpath) } @{$self->{trees}};        
         return (ref $self || $self)->new_from_element(\@new, $self);
     }
@@ -448,7 +463,8 @@ sub add {
     
     # add(selector, context)
     if (@stuff == 2 && !ref $stuff[0] && $stuff[1]->isa('HTML::Element')) {
-        push @nodes, $stuff[1]->findnodes(selector_to_xpath($stuff[0]), root => './');        
+        my $xpath = ref $stuff[0] ? ${$stuff[0]} : selector_to_xpath($stuff[0]);
+        push @nodes, $stuff[1]->findnodes( $xpath, root => './');
     }
     else {
         # handle any combination of html string, element object and web::query object
@@ -479,6 +495,11 @@ sub next {
         push @new, $tree->getNextSibling;
     }
     return (ref $self || $self)->new_from_element(\@new, $self);
+}
+
+sub last_response {
+    my ($class) = @_;
+    return $RESPONSE;
 }
 
 sub DESTROY {
@@ -519,7 +540,12 @@ Web::Query built at top of the CPAN modules, L<HTML::TreeBuilder::XPath>, L<LWP:
 
 So, this module uses L<HTML::Selector::XPath> and only supports the CSS 3
 selector supported by that module.
-Web::Query doesn't support jQuery's extended queries(yet?).
+Web::Query doesn't support jQuery's extended queries(yet?). If a selector is 
+passed as a scalar ref, it'll be taken as a straight XPath expression.
+
+    $wq( '<div><p>hello</p><p>there</p></div>' )->find( 'p' );       # css selector
+    $wq( '<div><p>hello</p><p>there</p></div>' )->find( \'/div/p' ); # xpath selector
+
 
 B<THIS LIBRARY IS UNDER DEVELOPMENT. ANY API MAY CHANGE WITHOUT NOTICE>.
 
@@ -547,8 +573,9 @@ This method throw the exception on unknown $stuff.
 
 This method returns undefined value on non-successful response with URL.
 
-Currently, the only option valid option is I<indent>, which will be used as
-the indentation string if the object is printed.
+Currently, the only two valid options are I<indent>, which will be used as
+the indentation string if the object is printed, and I<no_space_compacting>, 
+which will prevent the compaction of whitespace characters in text blocks.
 
 =item my $q = Web::Query->new_from_element($element: HTML::Element)
 
@@ -718,6 +745,14 @@ Get/Set the attribute value in element.
 
     $q->attr($name, $val);
 
+=head3 tagname
+
+Get/Set the tag name of elements.
+
+    my $name = $q->tagname;
+
+    $q->tagname($new_name);
+
 =head3 before
 
 Insert content, specified by the parameter, before each element in the set of matched elements.
@@ -813,6 +848,16 @@ Get/Set the text.
     
 If called in a scalar context, only return the string representation
 of the first element
+
+=head2 OTHERS
+
+=over 4
+
+=item Web::Query->last_response()
+
+Returns last HTTP response status that generated by C<new_from_url()>.
+
+=back
 
 =head1 HOW DO I CUSTOMIZE USER AGENT?
 

@@ -5,11 +5,9 @@ author:
 build_requires:
   Test::More: '0.98'
 configure_requires:
-  CPAN::Meta: '0'
-  CPAN::Meta::Prereqs: '0'
   Module::Build: '0.38'
 dynamic_config: 0
-generated_by: 'Minilla/v0.13.0, CPAN::Meta::Converter version 2.133380'
+generated_by: 'Minilla/v2.3.0, CPAN::Meta::Converter version 2.142690'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -28,10 +26,10 @@ no_index:
 provides:
   Web::Query:
     file: lib/Web/Query.pm
-    version: '0.26'
+    version: '0.27'
   Web::Query::LibXML:
     file: lib/Web/Query/LibXML.pm
-    version: '0.26'
+    version: '0.27'
 requires:
   HTML::Entities: '0'
   HTML::Selector::XPath: '0.06'
@@ -44,7 +42,7 @@ resources:
   bugtracker: https://github.com/tokuhirom/Web-Query/issues
   homepage: https://github.com/tokuhirom/Web-Query
   repository: git://github.com/tokuhirom/Web-Query.git
-version: '0.26'
+version: '0.27'
 x_authority: cpan:TOKUHIROM
 x_contributors:
   - 'Hiroki Honda <cside.story@gmail.com>'
@@ -53,6 +51,7 @@ x_contributors:
   - 'Carlos Fernando Avila Gratz <cafe01@gmail.com>'
   - 'DQNEO <dqneoo@gmail.com>'
   - 'Carlos Fernando Avila Gratz <cafe@q1software.com>'
-  - 'Yanick Champoux <yanick@babyl.dyndns.org>'
   - 'xaicron <xaicron@gmail.com>'
+  - 'moznion <moznion@gmail.com>'
   - 'Tokuhiro Matsuno <tokuhirom@gmail.com>'
+  - 'Yanick Champoux <yanick@babyl.dyndns.org>'

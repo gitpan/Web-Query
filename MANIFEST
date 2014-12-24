@@ -23,6 +23,7 @@ t/add.t
 t/add_class.t
 t/after.t
 t/append.t
+t/bad-url-with-options.t
 t/before.t
 t/clone.t
 t/contents.t
@@ -37,11 +38,14 @@ t/insert_before.t
 t/lib/My/TreeBuilder.pm
 t/lib/My/Web/Query.pm
 t/next.t
+t/no_space_compacting.t
 t/prepend.t
 t/prev.t
 t/remove_class.t
 t/replace_with.t
 t/store_comments.t
+t/tagname.t
+t/xpath.t
 xt/02_perlcritic.t
 xt/live/01_simple.t
 META.yml

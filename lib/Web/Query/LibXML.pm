@@ -6,7 +6,7 @@ use parent qw/Web::Query Exporter/;
 use HTML::TreeBuilder::LibXML;
 
 
-our $VERSION = "0.26";
+our $VERSION = "0.27";
 
 our @EXPORT = qw/wq/;
 
@@ -56,6 +56,14 @@ sub next {
         push @new, $tree->right;
     }
     return (ref $self || $self)->new_from_element(\@new, $self);
+}
+
+sub tagname {
+    my $self = shift;
+    my $method = @_ ? 'setNodeName' : 'nodeName';
+    
+    my @retval = map { $_->{node}->$method(@_) } @{$self->{trees}};
+    return wantarray ? @retval : $retval[0];
 }
 
 1;
